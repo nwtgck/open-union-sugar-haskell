@@ -1,0 +1,8 @@
+/.stack-work/
+/open-union-sugar.cabal
+
+# For IntelliJ IDEA
+/.idea
+/open-union-sugar.iml
+/open-union-0.3.0.0
+/cabal.config
