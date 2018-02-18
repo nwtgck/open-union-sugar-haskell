@@ -15,3 +15,14 @@ main = do
     let u2 :: Union '[Int, String]
         u2 = [l|205 :: Int|]
     print u2
+
+    let hlist1 :: [Union '[Char, Bool, String]]
+        hlist1 = [hlist|
+                    'a'
+                  , True
+                  , "apple"
+                  , 'z'
+                  , False
+                  , "orange"
+                 |]
+    print hlist1
