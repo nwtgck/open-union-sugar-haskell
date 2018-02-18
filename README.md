@@ -15,7 +15,7 @@ Add this library to `extra-deps` in your `stack.yaml` like the following if you 
 ...
 extra-deps:
 - git: git@github.com:nwtgck/open-union-sugar-haskell.git
-  commit: e45a481c9dd5d5b92b38b20b6e42a65f8b4ea1e3
+  commit: 00b2af29994a63c6cbcc4cd82b81ff567175dcfa
 ...
 ```
 
