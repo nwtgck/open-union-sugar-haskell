@@ -1,5 +1,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 module Data.OpenUnion.SugarSpec where
 
@@ -9,6 +11,17 @@ import Test.Hspec.QuickCheck
 
 import Data.OpenUnion
 import Data.OpenUnion.Sugar
+
+
+type UnitList = [()]
+
+showMyUnion :: Union '[Char, Int, String, UnitList] -> String
+[ptn|
+showMyUnion (c :: Char)     = "char: " ++ show c
+showMyUnion (i :: Int)      = "int: " ++ show i
+showMyUnion (s :: String)   = "string: " ++ s
+showMyUnion (l :: UnitList) = "list length: " ++ show (length l)
+|]
 
 main :: IO ()
 main = hspec spec
@@ -39,3 +52,13 @@ spec = do
                      |]
             expect = [liftUnion 'a', liftUnion True, liftUnion "apple", liftUnion 'z', liftUnion False, liftUnion "orange"]
         hlist1 `shouldBe` expect
+
+    describe "ptn quote" $ do
+      it "ptn" $ do
+        let u1 :: Union '[Char, Int, String, UnitList]
+            u1 = [l|"hello"|]
+        (showMyUnion u1) `shouldBe` "string: hello"
+
+        let u2 :: Union '[Char, Int, String, UnitList]
+            u2 = [l|189 :: Int|]
+        (showMyUnion u2) `shouldBe` "int: 189"
