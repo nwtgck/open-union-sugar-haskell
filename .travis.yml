@@ -33,8 +33,11 @@ install:
 # Build dependencies
 - stack --no-terminal --install-ghc test --only-dependencies
 
+after_script:
+- travis_retry curl -L https://github.com/rubik/stack-hpc-coveralls/releases/download/v0.0.4.0/shc-linux-x64-7.10.3.tar.bz2 | tar -xj
+- ./shc open-union-sugar open-union-sugar-test
+
 
 script:
-- stack setup
-- stack build
-- stack test
+# Build the package, its tests, and its docs and run the tests
+- stack --no-terminal test --haddock --no-haddock-deps --coverage
