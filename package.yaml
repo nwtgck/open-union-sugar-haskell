@@ -1,0 +1,43 @@
+name:                open-union-sugar
+version:             0.1.0-SNAPSHOT
+github:              "nwtgck/open-union-sugar-haskell"
+license:             BSD3
+author:              "Ryo Ota"
+maintainer:          "nwtgck@gmail.com"
+copyright:           "2018 Ryo Ota"
+
+extra-source-files:
+- README.md
+- CHANGELOG.md
+
+# Metadata used when publishing your package
+synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on Github at <https://github.com/nwtgck/open-union-sugar-haskell#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+ source-dirs: src
+ dependencies: 
+  - open-union
+  - template-haskell
+  - haskell-src-meta
+
+tests:
+  open-union-sugar-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies: 
+    - open-union      
+    - open-union-sugar
+    
