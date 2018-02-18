@@ -40,4 +40,6 @@ tests:
     dependencies: 
     - open-union      
     - open-union-sugar
+    - hspec
+    - QuickCheck
     
