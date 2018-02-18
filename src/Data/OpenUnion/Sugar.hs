@@ -13,12 +13,14 @@ import Language.Haskell.TH.Syntax
 import Language.Haskell.Meta
 import Data.Foldable
 
+import Data.OpenUnion
+
 -- | Syntax sugar of liftUnion
 l :: QuasiQuoter
 l = QuasiQuoter {
         quoteExp = \s -> do
             let Right e = parseExp s
-            appE (varE $ mkName "Data.OpenUnion.liftUnion" ) (return e)
+            [|Data.OpenUnion.liftUnion $(return e)|]
         , quotePat = undefined
         , quoteType = undefined
         , quoteDec = undefined
@@ -29,7 +31,7 @@ hlist :: QuasiQuoter
 hlist = QuasiQuoter {
         quoteExp = \s -> do
             let Right (ListE es) = parseExp ("[" ++ s ++ "]")
-                hes              = [appE (varE (mkName "Data.OpenUnion.liftUnion") ) (return e) | e <- es]
+                hes              = [[|Data.OpenUnion.liftUnion $(return e)|] | e <- es]
             listE hes
         , quotePat = undefined
         , quoteType = undefined
@@ -48,9 +50,9 @@ ptn   = QuasiQuoter {
                            let f :: Dec -> DecQ
                                f (FunD name clauses) = valD (varP name) (normalB exp) []
                                  where clauseToLamE (Clause pats (NormalB exp) decs) = (lamE (fmap return pats) (return exp))
-                                       lamEs           = (fmap clauseToLamE clauses)
-                                       typesExhaustedE = varE (mkName "Data.OpenUnion.typesExhausted")
-                                       exp             = foldr (\e s -> infixE (Just e) (varE (mkName "Data.OpenUnion.@>")) (Just s)) typesExhaustedE lamEs
+                                       lamEs           = fmap clauseToLamE clauses
+                                       typesExhaustedE = [|Data.OpenUnion.typesExhausted|]
+                                       exp             = foldr (\e s -> [|$(e) @> $(s)|]) typesExhaustedE lamEs
                                f other               =  return other
                            mapM f decs
                          Left e -> error ("Sugar error: " ++ e)
