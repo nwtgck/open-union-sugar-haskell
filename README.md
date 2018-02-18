@@ -25,6 +25,7 @@ extra-deps:
 ### `l` quote
 
 ```hs
+{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE QuasiQuotes #-}
 
 
@@ -62,4 +63,39 @@ main = do
                  |]
     print hlist1
     -- => [Union ('a' :: Char),Union (True :: Bool),Union ("apple" :: [Char]),Union ('z' :: Char),Union (False :: Bool),Union ("orange" :: [Char])]
+```
+
+
+### `ptn` quote
+
+```hs
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+
+import Data.OpenUnion
+import Data.OpenUnion.Sugar
+
+type UnitList = [()]
+
+showMyUnion :: Union '[Char, Int, String, UnitList] -> String
+[ptn|
+showMyUnion (c :: Char)     = "char: " ++ show c
+showMyUnion (i :: Int)      = "int: " ++ show i
+showMyUnion (s :: String)   = "string: " ++ s
+showMyUnion (l :: UnitList) = "list length: " ++ show (length l)
+|]
+
+
+main :: IO ()
+main = do
+    let u1 :: Union '[Char, Int, String, UnitList]
+        u1 = [l|"hello"|]
+    putStrLn (showMyUnion u1)
+    -- => string: hello
+
+    let u2 :: Union '[Char, Int, String, UnitList]
+        u2 = [l|189 :: Int|]
+    putStrLn (showMyUnion u2)
+    -- => int: 189
 ```

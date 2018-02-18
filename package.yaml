@@ -1,5 +1,5 @@
 name:                open-union-sugar
-version:             0.1.0
+version:             0.2.0
 github:              "nwtgck/open-union-sugar-haskell"
 license:             BSD3
 author:              "Ryo Ota"
@@ -40,4 +40,6 @@ tests:
     dependencies: 
     - open-union      
     - open-union-sugar
+    - hspec
+    - QuickCheck
     
