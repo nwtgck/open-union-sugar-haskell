@@ -9,16 +9,27 @@ Syntactic sugar for [open-union](https://hackage.haskell.org/package/open-union)
 
 ## Install
 
-Add this library to `extra-deps` in your `stack.yaml` like the following if you use [Stack](https://docs.haskellstack.org/en/stable/README/).
+### For [Stack](https://docs.haskellstack.org/en/stable/README/) users
+
+Add this library to `extra-deps` in your `stack.yaml` like the following.
 
 ```yaml
 ...
 extra-deps:
-- git: git@github.com:nwtgck/open-union-sugar-haskell.git
+- git: https://github.com/nwtgck/open-union-sugar-haskell.git
   commit: 24ad5c35054dc511308bb5186cf17784042c499a
 ...
 ```
 
+Then, add `open-union-sugar` to your `package.yaml` like the following.
+
+```yaml
+...
+library:
+ dependencies:
+ - open-union-sugar
+...
+```
 
 ## Usage
 
